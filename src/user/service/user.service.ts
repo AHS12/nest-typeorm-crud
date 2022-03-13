@@ -13,26 +13,46 @@ export class UserService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    try {
+      return await this.userRepository.find();
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findOne(id: number): Promise<User> {
-    return await this.userRepository.findOne(id);
+    try {
+      return await this.userRepository.findOne(id);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async create(user: UserDto): Promise<User> {
-    return await this.userRepository.save(user);
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id: number, user: UserUpdateDto): Promise<User> {
-    user.id = id;
-    await this.userRepository.update(id, user);
-    return await this.userRepository.findOne(user.id);
+    try {
+      user.id = id;
+      await this.userRepository.update(id, user);
+      return await this.userRepository.findOne(user.id);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async delete(id: number): Promise<boolean> {
-    const result = await this.userRepository.delete(id);
-    console.log(result);
-    return result.affected === 0 ? false : true;
+    try {
+      const result = await this.userRepository.delete(id);
+      console.log(result);
+      return result.affected === 0 ? false : true;
+    } catch (error) {
+      throw error;
+    }
   }
 }
