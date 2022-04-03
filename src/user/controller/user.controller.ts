@@ -60,6 +60,14 @@ export class UserController {
 
     console.log(data);
 
+    const alreadyExists = await this.userService.checkUserExists(data.email);
+    if (alreadyExists) {
+      return {
+        statusCode: HttpStatus.CONFLICT,
+        message: `User already exists with this email ${data.email}`,
+      };
+    }
+
     const newUser = await this.userService.create(data);
 
     console.log(newUser);
@@ -79,6 +87,20 @@ export class UserController {
     console.log('UserController updateUser');
     console.log(id);
     console.log(user);
+    if (user.email) {
+      console.log('email found!');
+      const alreadyExists = await this.userService.checkUserEmailExistsUpdate(
+        id,
+        user.email,
+      );
+      console.log(alreadyExists);
+      if (alreadyExists) {
+        return {
+          statusCode: HttpStatus.CONFLICT,
+          message: `User already exists with this email ${user.email}`,
+        };
+      }
+    }
 
     const updatedUser = await this.userService.update(id, user);
     console.log(updatedUser);
