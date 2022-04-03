@@ -1,10 +1,11 @@
 import { UserModule } from './user/user.module';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 //import { typeOrmconfigAsync } from './config/typeorm.config';
 @Module({
   imports: [
@@ -38,4 +39,7 @@ import { AppService } from './app.service';
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
 }
