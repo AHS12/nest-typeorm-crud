@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import ResponseInterface from '../../interface/response.interface';
+import ResponseInterface from '../../common/interface/response.interface';
 import { UserUpdateDto } from '../dto/user-update.dto';
 import { UserDto } from '../dto/user.dto';
 import { UserService } from '../service/user.service';
